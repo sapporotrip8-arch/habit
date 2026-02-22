@@ -7,6 +7,8 @@ export function ActivityButton({ activity }: { activity: any }) {
   const { mutate, isPending } = useCreateLog();
   const { toast } = useToast();
 
+  if (!activity) return null;
+
   return (
     <Button
       variant="outline"
@@ -21,7 +23,7 @@ export function ActivityButton({ activity }: { activity: any }) {
         });
       }}
     >
-      {isPending ? <Loader2 className="animate-spin" /> : <div className="text-2xl">＋</div>}
+      {isPending ? <Loader2 className="animate-spin" /> : <div className="text-2xl font-bold">＋</div>}
       <div className="font-bold">{activity.name}</div>
       <div className="text-xs opacity-80">(+{activity.points || 0})</div>
     </Button>
