@@ -17,7 +17,7 @@ export function ActivityButton({ activity }: { activity: any }) {
     ? "from-rose-400 to-pink-500"
     : "from-emerald-400 to-teal-500";
 
-  // ポイントの表記を調整（プラスなら+を付け、マイナスならそのまま表示）
+  // ポイントの表記を調整
   const displayPoints = activity.points > 0 
     ? `(+${activity.points})` 
     : `(${activity.points})`;
@@ -31,7 +31,15 @@ export function ActivityButton({ activity }: { activity: any }) {
       onClick={() => {
         mutate(activity.id, {
           onSuccess: () => {
-            toast({ title: `${activity.name}を記録しました！` });
+            // ポイントに応じて表示メッセージを切り替え
+            let message = `${activity.name}を記録しました！`;
+            if (activity.points > 0) {
+              message = "夢が近づいた";
+            } else if (activity.points < 0) {
+              message = "おっと　でもきっと大丈夫だよね？";
+            }
+            
+            toast({ title: message });
           }
         });
       }}
