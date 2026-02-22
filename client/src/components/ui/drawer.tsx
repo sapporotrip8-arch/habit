@@ -11,7 +11,7 @@ const Drawer = ({
 }: React.ComponentProps<typeof DrawerPrimitive.Root>) => (
   <DrawerPrimitive.Root
     shouldScaleBackground={shouldScaleBackground}
-    {...props}
+    ...props
   />
 )
 Drawer.displayName = "Drawer"
@@ -29,7 +29,7 @@ const DrawerOverlay = React.forwardRef<
   <DrawerPrimitive.Overlay
     ref={ref}
     className={cn("fixed inset-0 z-50 bg-black/80", className)}
-    {...props}
+    ...props
   />
 ))
 DrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName
@@ -46,7 +46,7 @@ const DrawerContent = React.forwardRef<
         "fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border bg-background",
         className
       )}
-      {...props}
+      ...props
     >
       <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted" />
       {children}
@@ -61,7 +61,7 @@ const DrawerHeader = ({
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn("grid gap-1.5 p-4 text-center sm:text-left", className)}
-    {...props}
+    ...props
   />
 )
 DrawerHeader.displayName = "DrawerHeader"
@@ -72,7 +72,7 @@ const DrawerFooter = ({
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn("mt-auto flex flex-col gap-2 p-4", className)}
-    {...props}
+    ...props
   />
 )
 DrawerFooter.displayName = "DrawerFooter"
@@ -87,7 +87,7 @@ const DrawerTitle = React.forwardRef<
       "text-lg font-semibold leading-none tracking-tight",
       className
     )}
-    {...props}
+    ...props
   />
 ))
 DrawerTitle.displayName = DrawerPrimitive.Title.displayName
@@ -99,7 +99,7 @@ const DrawerDescription = React.forwardRef<
   <DrawerPrimitive.Description
     ref={ref}
     className={cn("text-sm text-muted-foreground", className)}
-    {...props}
+    ...props
   />
 ))
 DrawerDescription.displayName = DrawerPrimitive.Description.displayName
