@@ -5,22 +5,22 @@ export function useSummary() {
   const { data: logs = [] } = useLogs();
   
   return useQuery({
-    // logs が更新されたら集計もやり直すように設定
-    queryKey: ["/api/summary", logs], 
+    queryKey: ["/api/summary", logs.length],
     queryFn: async () => {
       const now = new Date();
-      // 今日の 0 時 0 分の時間を取得
       const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
       
-      // 今日のログだけを抽出
-      const todayLogs = logs.filter((log: any) => 
-        new Date(log.timestamp).getTime() >= startOfToday
+      const todayLogs = (logs || []).filter((log: any) => 
+        log?.timestamp && new Date(log.timestamp).getTime() >= startOfToday
       );
 
       return {
         today: todayLogs.length,
-        total: logs.length
+        total: logs.length,
+        streak: 0,
+        achievements: 0
       };
     },
+    initialData: { today: 0, total: 0, streak: 0, achievements: 0 }
   });
 }
