@@ -26,7 +26,8 @@ export function ActivityButton({ activity }: { activity: any }) {
     <Button
       variant="outline"
       size="lg"
-      className={`h-32 w-48 flex-col gap-2 bg-gradient-to-br ${buttonColor} text-white border-none hover:opacity-90 active:scale-95 transition-all`}
+      // 高さを h-32 から h-24 に縮小、幅を w-full に変更
+      className={`h-24 w-full flex-col gap-1 bg-gradient-to-br ${buttonColor} text-white border-none hover:opacity-90 active:scale-95 transition-all px-2`}
       disabled={isPending}
       onClick={() => {
         mutate(activity.id, {
@@ -47,10 +48,10 @@ export function ActivityButton({ activity }: { activity: any }) {
       {isPending ? (
         <Loader2 className="animate-spin" />
       ) : (
-        <div className="text-2xl font-bold">{isNegative ? "ー" : "＋"}</div>
+        <div className="text-xl font-bold">{isNegative ? "ー" : "＋"}</div>
       )}
-      <div className="font-bold">{activity.name}</div>
-      <div className="text-xs opacity-80">{displayPoints}</div>
+      <div className="font-bold text-sm truncate w-full px-1">{activity.name}</div>
+      <div className="text-[10px] opacity-80">{displayPoints}</div>
     </Button>
   );
 }
