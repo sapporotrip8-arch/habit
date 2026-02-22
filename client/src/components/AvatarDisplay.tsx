@@ -8,22 +8,19 @@ export function AvatarDisplay() {
 
   if (isLoading) {
     return (
-      <div className="h-48 w-48 rounded-full bg-slate-200 animate-pulse" />
+      <div className="h-48 w-48 rounded-full bg-slate-200 animate-pulse mx-auto" />
     );
   }
 
-  // 指定された仕様に基づく画像の判定
-  let avatarSrc = "/happy.jpg"; 
-  let expression = "😐"; 
+  // 仕様に基づいた画像の判定
+  let avatarSrc = "/happy.jpg";
   let filterClass = "";
   
   if (totalPoints >= 100) {
     avatarSrc = "/evolution.jpg";
-    expression = "😊"; 
     filterClass = "saturate-150 brightness-110";
   } else if (totalPoints < 0) {
     avatarSrc = "/sad.jpg";
-    expression = "😢"; 
     filterClass = "grayscale contrast-125";
   }
 
@@ -40,13 +37,12 @@ export function AvatarDisplay() {
             alt="Avatar" 
             className="h-full w-full object-cover"
             onError={(e) => {
+              // 画像がアップロードされていない場合の予備表示
               e.currentTarget.src = "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix";
             }}
           />
         </motion.div>
-        <div className="absolute -bottom-2 -right-2 bg-white rounded-full p-2 shadow-lg text-3xl">
-          {expression}
-        </div>
+        {/* 顔文字のオーバーレイを削除しました */}
       </div>
     </div>
   );
