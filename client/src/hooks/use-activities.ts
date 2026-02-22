@@ -1,36 +1,24 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
-import { Activity, InsertActivity } from "@shared/schema";
+import { collection, getDocs, addDoc, deleteDoc, doc } from "firebase/firestore";
+import { db } from "../lib/firebase";
 
 export function useActivities() {
-  return useQuery<Activity[]>({
+  return useQuery({
     queryKey: ["/api/activities"],
+    queryFn: async () => {
+      const querySnapshot = await getDocs(collection(db, "activities"));
+      return querySnapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+    },
   });
 }
 
 export function useCreateActivity() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (activity: InsertActivity) => {
-      const res = await apiRequest("POST", "/api/activities", activity);
-      return res.json();
+    mutationFn: async (newAct: any) => {
+      const docRef = await addDoc(collection(db, "activities"), newAct);
+      return { id: docRef.id, ...newAct };
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/activities"] });
-    },
-  });
-}
-
-// 項目自体の削除命令
-export function useDeleteActivity() {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: async (id: number) => {
-      await apiRequest("DELETE", `/api/activities/${id}`);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/activities"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/summary"] });
-    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["/api/activities"] }),
   });
 }
