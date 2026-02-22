@@ -4,7 +4,7 @@ import { AvatarDisplay } from "@/components/AvatarDisplay";
 import { RecentLogs } from "@/components/RecentLogs";
 import { ActivityButton } from "@/components/ActivityButton";
 import { ManageActivities } from "@/components/ManageActivities";
-import { StreakHeader } from "@/components/StreakHeader"; // 追加
+import { StreakHeader } from "@/components/StreakHeader";
 import { Card, CardContent } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 
@@ -22,10 +22,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#f8f9ff] to-[#f0f4ff] pb-20">
-      {/* 新しいヘッダーをここに追加 */}
       <StreakHeader />
 
-      {/* ヘッダーの分だけ上に余白を開ける */}
       <div className="mx-auto max-w-3xl space-y-8 pt-20 px-4">
         
         <div className="flex flex-col md:flex-row items-center justify-center gap-6">
@@ -48,15 +46,16 @@ export default function Home() {
           </Card>
         </div>
 
-        <section className="space-y-4 text-center">
-          <h2 className="text-lg font-bold text-slate-800">できた事を記録する</h2>
-          <div className="flex flex-wrap justify-center gap-4">
+        <section className="space-y-4">
+          <h2 className="text-lg font-bold text-slate-800 text-center">できた事を記録する</h2>
+          {/* ここを2列のグリッドに変更しました */}
+          <div className="grid grid-cols-2 gap-3 max-w-xl mx-auto">
             {activities.length > 0 ? (
               activities.map((activity: any) => (
                 <ActivityButton key={activity.id} activity={activity} />
               ))
             ) : (
-              <p className="text-sm text-muted-foreground py-10 w-full text-center">
+              <p className="text-sm text-muted-foreground py-10 text-center col-span-2">
                 「項目のカスタマイズ」から追加してください
               </p>
             )}
