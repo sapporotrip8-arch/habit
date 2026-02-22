@@ -1,66 +1,36 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { api, buildUrl, type ActivityInput } from "@shared/routes";
+import { apiRequest } from "@/lib/queryClient";
+import { Activity, InsertActivity } from "@shared/schema";
 
 export function useActivities() {
-  return useQuery({
-    queryKey: [api.activities.list.path],
-    queryFn: async () => {
-      const res = await fetch(api.activities.list.path, { credentials: "include" });
-      if (!res.ok) throw new Error("Failed to fetch activities");
-      return api.activities.list.responses[200].parse(await res.json());
-    },
+  return useQuery<Activity[]>({
+    queryKey: ["/api/activities"],
   });
 }
 
 export function useCreateActivity() {
   const queryClient = useQueryClient();
-  
   return useMutation({
-    mutationFn: async (data: ActivityInput) => {
-      const validated = api.activities.create.input.parse(data);
-      const res = await fetch(api.activities.create.path, {
-        method: api.activities.create.method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(validated),
-        credentials: "include",
-      });
-      
-      if (!res.ok) {
-        if (res.status === 400) {
-          const error = api.activities.create.responses[400].parse(await res.json());
-          throw new Error(error.message);
-        }
-        throw new Error("Failed to create activity");
-      }
-      return api.activities.create.responses[201].parse(await res.json());
+    mutationFn: async (activity: InsertActivity) => {
+      const res = await apiRequest("POST", "/api/activities", activity);
+      return res.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [api.activities.list.path] });
+      queryClient.invalidateQueries({ queryKey: ["/api/activities"] });
     },
   });
 }
 
+// 項目自体の削除命令
 export function useDeleteActivity() {
   const queryClient = useQueryClient();
-  
   return useMutation({
     mutationFn: async (id: number) => {
-      const url = buildUrl(api.activities.delete.path, { id });
-      const res = await fetch(url, { 
-        method: api.activities.delete.method, 
-        credentials: "include" 
-      });
-      
-      if (!res.ok) {
-        if (res.status === 404) {
-          const error = api.activities.delete.responses[404].parse(await res.json());
-          throw new Error(error.message);
-        }
-        throw new Error("Failed to delete activity");
-      }
+      await apiRequest("DELETE", `/api/activities/${id}`);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [api.activities.list.path] });
+      queryClient.invalidateQueries({ queryKey: ["/api/activities"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/summary"] });
     },
   });
 }
