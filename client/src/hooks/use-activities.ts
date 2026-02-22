@@ -22,3 +22,14 @@ export function useCreateActivity() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["/api/activities"] }),
   });
 }
+
+// ここから下が不足していた削除機能です
+export function useDeleteActivity() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      await deleteDoc(doc(db, "activities", id));
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["/api/activities"] }),
+  });
+}
