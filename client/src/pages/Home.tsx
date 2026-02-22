@@ -37,12 +37,10 @@ export default function Home() {
 
       <div className="mx-auto max-w-2xl space-y-8 pt-20 px-4">
         
-        {/* アバターを中央に配置 */}
         <div className="flex justify-center">
           <AvatarDisplay />
         </div>
 
-        {/* スコア表示 */}
         <div className="grid grid-cols-2 gap-4">
           <Card className="border-none shadow-sm bg-white/50 backdrop-blur">
             <CardContent className="p-4 text-center">
@@ -58,7 +56,6 @@ export default function Home() {
           </Card>
         </div>
 
-        {/* 記録用ドロワーの起動セクション */}
         <section className="space-y-4">
           <Drawer>
             <DrawerTrigger asChild>
@@ -95,7 +92,6 @@ export default function Home() {
             </DrawerContent>
           </Drawer>
 
-          {/* 最近の記録（5件）を記録ボタンの下に配置 */}
           <RecentLogs />
         </section>
 
