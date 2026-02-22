@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { collection, getDocs, addDoc, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../lib/firebase";
 
+// 1. 一覧を取得する機能
 export function useActivities() {
   return useQuery({
     queryKey: ["/api/activities"],
@@ -12,6 +13,7 @@ export function useActivities() {
   });
 }
 
+// 2. 新しく追加する機能
 export function useCreateActivity() {
   const queryClient = useQueryClient();
   return useMutation({
@@ -23,7 +25,7 @@ export function useCreateActivity() {
   });
 }
 
-// ここから下が不足していた削除機能です
+// 3. 削除する機能（これがエラーの原因になっていた部分です）
 export function useDeleteActivity() {
   const queryClient = useQueryClient();
   return useMutation({
