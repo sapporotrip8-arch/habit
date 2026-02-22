@@ -8,6 +8,7 @@ export function useLogs() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // 最新順（降順）に取得
     const q = query(collection(db, "logs"), orderBy("timestamp", "desc"));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const logs = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
