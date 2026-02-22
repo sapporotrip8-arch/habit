@@ -4,6 +4,7 @@ import { AvatarDisplay } from "@/components/AvatarDisplay";
 import { RecentLogs } from "@/components/RecentLogs";
 import { ActivityButton } from "@/components/ActivityButton";
 import { ManageActivities } from "@/components/ManageActivities";
+import { StreakHeader } from "@/components/StreakHeader"; // 追加
 import { Card, CardContent } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 
@@ -20,16 +21,18 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#f8f9ff] to-[#f0f4ff] p-4 pb-20">
-      <div className="mx-auto max-w-3xl space-y-8 pt-8">
+    <div className="min-h-screen bg-gradient-to-br from-[#f8f9ff] to-[#f0f4ff] pb-20">
+      {/* 新しいヘッダーをここに追加 */}
+      <StreakHeader />
+
+      {/* ヘッダーの分だけ上に余白を開ける */}
+      <div className="mx-auto max-w-3xl space-y-8 pt-20 px-4">
         
-        {/* 顔とログを横に並べるセクション */}
         <div className="flex flex-col md:flex-row items-center justify-center gap-6">
           <AvatarDisplay />
           <RecentLogs />
         </div>
 
-        {/* スコア表示 */}
         <div className="grid grid-cols-2 gap-4 max-w-2xl mx-auto">
           <Card className="border-none shadow-sm bg-white/50 backdrop-blur">
             <CardContent className="p-4 text-center">
@@ -45,16 +48,15 @@ export default function Home() {
           </Card>
         </div>
 
-        {/* 記録ボタン一覧 */}
-        <section className="space-y-4">
-          <h2 className="text-lg font-bold text-slate-800 text-center">できた事を記録する</h2>
+        <section className="space-y-4 text-center">
+          <h2 className="text-lg font-bold text-slate-800">できた事を記録する</h2>
           <div className="flex flex-wrap justify-center gap-4">
             {activities.length > 0 ? (
               activities.map((activity: any) => (
                 <ActivityButton key={activity.id} activity={activity} />
               ))
             ) : (
-              <p className="text-sm text-muted-foreground py-10 text-center w-full">
+              <p className="text-sm text-muted-foreground py-10 w-full text-center">
                 「項目のカスタマイズ」から追加してください
               </p>
             )}
