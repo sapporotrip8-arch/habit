@@ -7,13 +7,13 @@ export function RecentLogs() {
   const { data: logs = [] } = useLogs();
   const { data: activities = [] } = useActivities();
 
+  // 最新の5件を抽出して名前とポイントを紐付け
   const recent = logs.slice(0, 5).map(log => {
     const activity = activities.find(a => a.id === log.activityId);
     return {
       id: log.id,
       name: activity?.name || "不明な項目",
       points: activity?.points || 0,
-      time: new Date(log.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
   });
 
@@ -29,7 +29,10 @@ export function RecentLogs() {
             recent.map((r) => (
               <div key={r.id} className="text-xs flex justify-between items-center">
                 <span className="text-slate-700 font-medium truncate max-w-[120px]">{r.name}</span>
-                <span className="text-slate-400 font-mono">{r.time}</span>
+                {/* 時間の代わりにポイント数を表示 */}
+                <span className={`font-mono font-bold ${r.points >= 0 ? 'text-emerald-500' : 'text-rose-500'}`}>
+                  {r.points > 0 ? `+${r.points}` : r.points}
+                </span>
               </div>
             ))
           ) : (
