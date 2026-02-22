@@ -7,7 +7,6 @@ export function RecentLogs() {
   const { data: logs = [] } = useLogs();
   const { data: activities = [] } = useActivities();
 
-  // 最新の5件を抽出して名前を紐付け
   const recent = logs.slice(0, 5).map(log => {
     const activity = activities.find(a => a.id === log.activityId);
     return {
