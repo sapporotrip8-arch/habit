@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import { api } from "@shared/routes";
+import { useLogs } from "./use-logs";
 
 export function useSummary() {
+  const { data: logs = [] } = useLogs();
   return useQuery({
-    queryKey: [api.summary.get.path],
-    queryFn: async () => {
-      const res = await fetch(api.summary.get.path, { credentials: "include" });
-      if (!res.ok) throw new Error("Failed to fetch summary");
-      return api.summary.get.responses[200].parse(await res.json());
-    },
+    queryKey: ["/api/summary"],
+    queryFn: async () => ({
+      total: logs.length
+    }),
+    enabled: true,
   });
 }
