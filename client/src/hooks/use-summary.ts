@@ -8,7 +8,6 @@ export function useSummary() {
   const now = new Date();
   const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
   
-  // ポイントの合計を計算する関数
   const calculatePoints = (targetLogs: any[]) => {
     return targetLogs.reduce((sum, log) => {
       const activity = activities.find(a => a.id === log.activityId);
@@ -16,13 +15,13 @@ export function useSummary() {
     }, 0);
   };
 
-  const todayLogs = logs.filter((log: any) => 
+  const todayLogs = (logs || []).filter((log: any) => 
     log?.timestamp && new Date(log.timestamp).getTime() >= startOfToday
   );
 
   return {
-    todayPoints: calculatePoints(todayLogs), // 今日の合計ポイント
-    totalPoints: calculatePoints(logs),      // 全期間の合計ポイント
+    todayPoints: calculatePoints(todayLogs),
+    totalPoints: calculatePoints(logs || []),
     isLoading
   };
 }
