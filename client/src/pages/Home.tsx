@@ -1,6 +1,7 @@
 import { useActivities } from "@/hooks/use-activities";
 import { useSummary } from "@/hooks/use-summary";
 import { AvatarDisplay } from "@/components/AvatarDisplay";
+import { RecentLogs } from "@/components/RecentLogs";
 import { ActivityButton } from "@/components/ActivityButton";
 import { ManageActivities } from "@/components/ManageActivities";
 import { Card, CardContent } from "@/components/ui/card";
@@ -10,7 +11,6 @@ export default function Home() {
   const { data: activities = [], isLoading: actLoading } = useActivities();
   const summary = useSummary();
 
-  // 読み込み中画面
   if (actLoading || summary.isLoading) {
     return (
       <div className="flex h-screen items-center justify-center bg-gradient-to-br from-[#f8f9ff] to-[#f0f4ff]">
@@ -21,12 +21,16 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#f8f9ff] to-[#f0f4ff] p-4 pb-20">
-      <div className="mx-auto max-w-2xl space-y-8 pt-8">
-        {/* アバター（ポイントに応じて画像が切り替わります） */}
-        <AvatarDisplay />
+      <div className="mx-auto max-w-3xl space-y-8 pt-8">
+        
+        {/* 顔とログを横に並べるセクション */}
+        <div className="flex flex-col md:flex-row items-center justify-center gap-6">
+          <AvatarDisplay />
+          <RecentLogs />
+        </div>
 
         {/* スコア表示 */}
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4 max-w-2xl mx-auto">
           <Card className="border-none shadow-sm bg-white/50 backdrop-blur">
             <CardContent className="p-4 text-center">
               <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Today Points</p>
@@ -57,7 +61,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 項目管理メニュー */}
         <ManageActivities />
       </div>
     </div>
