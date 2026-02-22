@@ -9,11 +9,24 @@ export function ActivityButton({ activity }: { activity: any }) {
 
   if (!activity) return null;
 
+  // ポイントがマイナスかどうかを判定
+  const isNegative = activity.points < 0;
+
+  // ボタンの色を決定（プラスは緑系、マイナスはピンク系）
+  const buttonColor = isNegative
+    ? "from-rose-400 to-pink-500"
+    : "from-emerald-400 to-teal-500";
+
+  // ポイントの表記を調整（プラスなら+を付け、マイナスならそのまま表示）
+  const displayPoints = activity.points > 0 
+    ? `(+${activity.points})` 
+    : `(${activity.points})`;
+
   return (
     <Button
       variant="outline"
       size="lg"
-      className="h-32 w-48 flex-col gap-2 bg-gradient-to-br from-emerald-400 to-teal-500 text-white border-none hover:opacity-90 active:scale-95 transition-all"
+      className={`h-32 w-48 flex-col gap-2 bg-gradient-to-br ${buttonColor} text-white border-none hover:opacity-90 active:scale-95 transition-all`}
       disabled={isPending}
       onClick={() => {
         mutate(activity.id, {
@@ -23,9 +36,13 @@ export function ActivityButton({ activity }: { activity: any }) {
         });
       }}
     >
-      {isPending ? <Loader2 className="animate-spin" /> : <div className="text-2xl font-bold">＋</div>}
+      {isPending ? (
+        <Loader2 className="animate-spin" />
+      ) : (
+        <div className="text-2xl font-bold">{isNegative ? "ー" : "＋"}</div>
+      )}
       <div className="font-bold">{activity.name}</div>
-      <div className="text-xs opacity-80">(+{activity.points || 0})</div>
+      <div className="text-xs opacity-80">{displayPoints}</div>
     </Button>
   );
 }
